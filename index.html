@@ -1,19 +1,33 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <title>People API Quickstart</title>
     <meta charset="utf-8" />
+	<link rel="stylesheet" href = "style.css" />
   </head>
   <body>
-    <p>People API Quickstart</p>
+<div class="contact-area">
+  <div class="contact">
+    <main>
+      <section>
+        <div class="content">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/256492/_mLIxaKY_400x400.jpg" alt="Profile Image">
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" style="display: none;">Authorize</button>
-    <button id="signout_button" style="display: none;">Sign Out</button>
-    <button id="contact_button" style="display: none;">Create Contact</button>
+          <aside>
+            <h1>People API Quickstart</h1>
+            <p>Fullname : Tahir Artikov</p>
+            <p>Email : tahir.artikov@partsavatar.ca</p>
+            <p>Phone : +998943148990</p>
+          </aside>
+       
+          <button id="authorize_button" style="display: none;"><span>Authorize</span></button>
+          <button id="successfully" style="display: none; background-color:#5dbe25"><span>Successfully</span></button>
+          
+       </div>  
 
-    <pre id="content" style="white-space: pre-wrap;"></pre>
+        <div class="title"><p>Contact Me</p></div>
+      </section>
+          <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
@@ -28,9 +42,6 @@
       var SCOPES = "https://www.googleapis.com/auth/contacts";
 
       var authorizeButton = document.getElementById('authorize_button');
-      var signoutButton = document.getElementById('signout_button');
-      var contactButton = document.getElementById('contact_button');
-
       /**
        *  On load, called to load the auth2 library and API client library.
        */
@@ -54,7 +65,7 @@
 
           // Handle the initial sign-in state.
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          contactButton.onclick = handleContactClick;
+          authorizeButton.onclick = handleAuthClick;
           
         }, function(error) {
           appendPre(JSON.stringify(error, null, 2));
@@ -67,17 +78,23 @@
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
-          contactButton.style.display = 'block';
+          authorizeButton.style.display = 'none';
+          successfully.style.display = 'block';
         } else {
-          gapi.auth2.getAuthInstance().signIn();
+          authorizeButton.style.display = 'block';
+          successfully.style.display = 'none';
         }
       }
-
       /**
        *  Sign in the user upon button click.
        */
       function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
+        gapi.auth2.getAuthInstance().signIn().then(
+        	function(response) {
+            handleContactClick();
+          }, function(reason) {
+            console.log('Error: ' + reason.result.error.message);
+          });
       }
 
       /**
@@ -140,10 +157,15 @@
         pre.appendChild(textContent);
       }
     </script>
-
     <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
       onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
+
+    </main>
+
+  </div>
+</div>
+
   </body>
 </html>
