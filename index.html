@@ -3,7 +3,6 @@
   <head>
     <title>People API Quickstart</title>
     <meta charset="utf-8" />
-	<link rel="stylesheet" href = "style.css" />
   </head>
   <body>
 <div class="contact-area">
@@ -21,7 +20,9 @@
           </aside>
        
           <button id="authorize_button" style="display: none;"><span>Authorize</span></button>
-          <button id="successfully" style="display: none; background-color:#5dbe25"><span>Successfully</span></button>
+          <button id="successfully" style="display: none; background-color:#5dbe25">
+            <span style="color:white">Successfully</span>
+          </button>
           
        </div>  
 
@@ -78,6 +79,7 @@
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
+        	handleContactClick();
           authorizeButton.style.display = 'none';
           successfully.style.display = 'block';
         } else {
